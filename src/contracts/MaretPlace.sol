@@ -51,7 +51,7 @@ contract MarketPlace {
         require(msg.value >= _product.price);
 
         // Make sure that product is not purchased yet
-        require(!product.purchased);
+        require(!_product.purchased);
 
         // Make sure that buyer is not the seller
         require(_seller != msg.sender);
