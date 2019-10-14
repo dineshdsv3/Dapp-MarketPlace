@@ -27,7 +27,7 @@ contract MarketPlace {
         uint price,
         address payable owner,
         bool purchased
-    )
+    );
 
     function createProduct(string memory _name, uint _price) public {
         require(bytes(_name).length > 0,"Invalid name");
