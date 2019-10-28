@@ -5296,12 +5296,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x87779ac10F5216c76323d4E2f6d1db5191A5B447",
-      "transactionHash": "0x932b46926d58fd9a285c5c22e85d79d034bdabe5aa85ec9d43408bdc313f821e"
+      "address": "0x454cd12747c43c9EF25DA4e8AB90D3dc77aA65f3",
+      "transactionHash": "0xd90d31cdd11fb68805fd9b085ea782508c913f2861a1e04b1022b65591e17f45"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2019-10-14T02:21:50.930Z",
+  "updatedAt": "2019-10-28T09:12:28.554Z",
   "devdoc": {
     "methods": {}
   },
