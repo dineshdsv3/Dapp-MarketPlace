@@ -3,6 +3,7 @@ import Web3 from 'web3'
 import './App.css';
 import Marketplace from '../abis/MarketPlace.json'
 import Navbar from './Navbar'
+import Main from './Main'
 
 class App extends Component {
 
@@ -31,9 +32,13 @@ class App extends Component {
     this.setState({ account: accounts[0] })
     const networkId = await web3.eth.net.getId()
     const networkData = Marketplace.networks[networkId]
-    if(networkData) {
+    if (networkData) {
       const marketplace = web3.eth.Contract(Marketplace.abi, networkData.address)
       console.log(marketplace)
+      this.setState({ marketplace })
+      const productCount = await marketplace.methods.productCount().call()
+      console.log(productCount.toString())
+      this.setState({ loading: false })
     } else {
       window.alert('Marketplace contract not deployed to detected network.')
     }
@@ -47,7 +52,19 @@ class App extends Component {
       products: [],
       loading: true
     }
+    // Binding
+    this.createProduct = this.createProduct.bind(this);
+
   }
+
+  createProduct(name, price) {
+    this.setState({ loading: true })
+    this.state.marketplace.methods.createProduct(name, price).send({ from: this.state.account })
+      .once('receipt', (receipt) => {
+        this.setState({ loading: false })
+      })
+  }
+  
 
   render() {
     return (
@@ -57,7 +74,11 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-                
+                {this.state.loading
+                  ? 'Loading'
+                  : <Main createProduct={this.createProduct} />
+                }
+
               </div>
             </main>
           </div>
