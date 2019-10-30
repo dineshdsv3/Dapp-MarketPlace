@@ -44,17 +44,16 @@ contract MarketPlace {
         // Fetch the owner of the particular product
         address payable _seller = _product.owner;
 
-        // make sure the product is valid 
-        require(_product.id > 0 && _product.id <= productCount);
+      require(_product.id > 0 && _product.id <= productCount,"Product ID");
 
         // Make sure that the buyer has enough money to make this transaction
-        require(msg.value >= _product.price);
+        require(msg.value >= _product.price,"Value of product");
 
         // Make sure that product is not purchased yet
-        require(!_product.purchased);
+        require(!_product.purchased,"Product already purchased");
 
         // Make sure that buyer is not the seller
-        require(_seller != msg.sender);
+        require(_seller != msg.sender,"Buyer cant be seller");
 
         // transfer ownership to the buyer
         _product.owner = msg.sender;
@@ -70,7 +69,6 @@ contract MarketPlace {
 
         // trigger an event
         emit ProductCreated(productCount,_product.name,_product.price,msg.sender,true);
-        
 
     }
 }
