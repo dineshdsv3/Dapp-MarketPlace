@@ -11,6 +11,9 @@ class Main extends Component {
                     const name = this.productName.value
                     const price = window.web3.utils.toWei(this.productPrice.value.toString(), 'Ether')
                     this.props.createProduct(name, price)
+                        this.setState({loading:false})
+                    
+                    
                 }}>
                     <div className="form-group mr-sm-2">
                         <input
@@ -54,7 +57,18 @@ class Main extends Component {
                                     <td>{product.name}</td>
                                     <td>{window.web3.utils.fromWei(product.price.toString(), 'Ether')} Eth</td>
                                     <td>{product.owner}</td>
-                                    <td><button className="buyButton">Buy</button></td>
+                                    <td>{!product.purchased
+                                        ? <button
+                                            name={product.id}
+                                            value={product.price}
+                                            onClick={(event) => {
+                                                this.props.purchaseProduct(event.target.name, event.target.value)
+                                            }}
+                                        >
+                                            Buy
+                                            </button>
+                                        : null
+                                    }</td>
                                 </tr>
                             )
                         })}

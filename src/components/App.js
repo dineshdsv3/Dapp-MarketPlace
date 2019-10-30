@@ -62,6 +62,7 @@ class App extends Component {
     }
     // Binding
     this.createProduct = this.createProduct.bind(this);
+    this.purchaseProduct = this.purchaseProduct.bind(this);
 
   }
 
@@ -72,7 +73,15 @@ class App extends Component {
         this.setState({ loading: false })
       })
   }
-  
+
+
+  purchaseProduct(id, price){
+    this.setState({loading: true})
+    this.state.marketplace.methods.purchaseProduct(id).send({from:this.state.account, value:price})
+    .once('receipt',(receipt)=> {
+      this.setState({loading: false})
+    })
+  }
 
   render() {
     return (
@@ -86,7 +95,9 @@ class App extends Component {
                   ? 'Loading'
                   : <Main 
                   products = {this.state.products}
-                  createProduct={this.createProduct} />
+                  createProduct={this.createProduct}
+                  purchaseProduct={this.purchaseProduct} 
+                  />
                 }
 
               </div>
