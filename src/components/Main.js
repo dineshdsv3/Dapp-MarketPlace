@@ -10,7 +10,7 @@ class Main extends Component {
                     event.preventDefault()
                     const name = this.productName.value
                     const price = window.web3.utils.toWei(this.productPrice.value.toString(), 'Ether')
-                    this.props.createProduct(name,price)
+                    this.props.createProduct(name, price)
                 }}>
                     <div className="form-group mr-sm-2">
                         <input
@@ -46,27 +46,19 @@ class Main extends Component {
                         </tr>
                     </thead>
                     <tbody id="productList">
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>iPhone x</td>
-                            <td>1 Eth</td>
-                            <td>0x39C7BC5496f4eaaa1fF75d88E079C22f0519E7b9</td>
-                            <td><button className="buyButton">Buy</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Macbook Pro</td>
-                            <td>3 eth</td>
-                            <td>0x39C7BC5496f4eaaa1fF75d88E079C22f0519E7b9</td>
-                            <td><button className="buyButton">Buy</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Airpods</td>
-                            <td>0.5 eth</td>
-                            <td>0x39C7BC5496f4eaaa1fF75d88E079C22f0519E7b9</td>
-                            <td><button className="buyButton">Buy</button></td>
-                        </tr>
+                        {this.props.products.map((product, key) => {
+                            return (
+
+                                <tr key={key}>
+                                    <th scope="row">{product.id.toString()}</th>
+                                    <td>{product.name}</td>
+                                    <td>{window.web3.utils.fromWei(product.price.toString(), 'Ether')} Eth</td>
+                                    <td>{product.owner}</td>
+                                    <td><button className="buyButton">Buy</button></td>
+                                </tr>
+                            )
+                        })}
+
                     </tbody>
                 </table>
 

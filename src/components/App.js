@@ -37,7 +37,15 @@ class App extends Component {
       console.log(marketplace)
       this.setState({ marketplace })
       const productCount = await marketplace.methods.productCount().call()
-      console.log(productCount.toString())
+      this.setState({productCount})
+      for(let i = 0; i<productCount; i++){
+        const product = await marketplace.methods.products(i).call()
+        this.setState({
+          products : [...this.state.products,product]
+        })
+      }
+      console.log(this.state.products)
+      // console.log(productCount.toString())
       this.setState({ loading: false })
     } else {
       window.alert('Marketplace contract not deployed to detected network.')
@@ -76,7 +84,9 @@ class App extends Component {
               <div className="content mr-auto ml-auto">
                 {this.state.loading
                   ? 'Loading'
-                  : <Main createProduct={this.createProduct} />
+                  : <Main 
+                  products = {this.state.products}
+                  createProduct={this.createProduct} />
                 }
 
               </div>
