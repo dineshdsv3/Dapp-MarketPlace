@@ -4,6 +4,7 @@ import './App.css';
 import Marketplace from '../abis/MarketPlace.json'
 import Navbar from './Navbar'
 import Main from './Main'
+import ipfs from '../ipfs'
 
 class App extends Component {
 
@@ -44,7 +45,7 @@ class App extends Component {
           products : [...this.state.products,product]
         })
       }
-      console.log(this.state.products)
+      // console.log(this.state.products)
       // console.log(productCount.toString())
       this.setState({ loading: false })
     } else {
@@ -58,7 +59,8 @@ class App extends Component {
       account: '',
       productCount: 0,
       products: [],
-      loading: true
+      loading: true,
+      buffer: null
     }
     // Binding
     this.createProduct = this.createProduct.bind(this);
@@ -83,6 +85,18 @@ class App extends Component {
     })
   }
 
+  captureFile = (e) => {
+    e.preventDefault();
+    console.log("image Captured");
+    const file = e.target.files[0]
+    // console.log(file);
+    const reader = new window.FileReader()
+    reader.readAsArrayBuffer(file);
+    reader.onloadend = () => {
+      this.setState({buffer:  Buffer(reader.result)})
+      console.log('Buffer',this.state.buffer)
+    }
+  }
   render() {
     return (
       <div>
@@ -91,15 +105,18 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-                {this.state.loading
+                {/* {this.state.loading
                   ? 'Loading'
                   : <Main 
                   products = {this.state.products}
                   createProduct={this.createProduct}
                   purchaseProduct={this.purchaseProduct} 
                   />
-                }
-
+                } */}
+              <form>
+                <input type="file" onChange={this.captureFile}/>
+                <input type="submit" />
+              </form>
               </div>
             </main>
           </div>
