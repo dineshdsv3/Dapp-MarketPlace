@@ -4,7 +4,10 @@ import "./App.css";
 import Marketplace from "../abis/MarketPlace.json";
 import Navbar from "./Navbar";
 import Main from "./Main";
-import ipfs from "../ipfs";
+// import ipfs from "../ipfs";
+
+const ipfsClient = require('ipfs-http-client');
+const ipfs = ipfsClient({ host:'ipfs.infura.io', port: 5001, protocol: 'https' });
 
 class App extends Component {
   async componentWillMount() {
@@ -102,17 +105,16 @@ class App extends Component {
     };
   };
 
-  submitHandle = async (e) => {
+  submitHandle = e => {
     e.preventDefault();
     console.log(this.state.buffer);
     // console.log("Submit clicked");
-   await ipfs.add(this.state.buffer ,(err, hash) => {
-      if(err) {
+    ipfs.add(this.state.buffer, (err, result) => {
+      console.log(`ipfs result is ${result}`)
+      if(err){
         console.log(err)
       }
-      console.log(hash);
-    })
-    
+    });
   };
 
   render() {
